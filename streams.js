@@ -174,7 +174,7 @@ f.on('error', function(err) {
 //r.pipe(process.stdout);
 //r.pipe(st).pipe(f);
 //r.pipe(t).pipe(filestream);
-//r.pipe(w);
+r.pipe(w);  // does not work properly
 //r.pipe(filestream);
 
 setTimeout(function () {
