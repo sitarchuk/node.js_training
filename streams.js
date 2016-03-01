@@ -31,10 +31,16 @@ class MyReadable extends stream.Readable {
        }
   
        var n = Math.floor(Math.random() * (this.max - this.min + 1)) + this.min;    
-       // sync
+      //  sync
        var buf = crypto.randomBytes(n);
        //console.log(`buffer is ${n}(${buf.length}) size`);
        this.push(buf);
+        
+//async //
+         //crypto.randomBytes(n, (err, buf) => {
+  //               if (err) throw err;
+    //             this.push(buf);
+      //   });
     }
 
     stopRead() {
@@ -101,11 +107,15 @@ class MyWritable extends stream.Writable{
         //if encoding !== 'buffer'
         var buf = chunk.length > this.max ? chunk.slice(0, this.max) : chunk.slice(0, chunk.length); 
         //console.log(`chunk is ${buf.length} size out of ${chunk.length}`);
-        //setImmediate(function () {
-        setTimeout(function () { 
+//var fl = this.filestream;
+        setImmediate(() => {
+        //setTimeout(function () { 
+              //fl.write(buf);
               this.filestream.write(buf);
-         }, 10);
-        callback(this.error);
+callback();
+ });
+        // }, 10);
+        //callback(this.error);
     }
 }
 
@@ -174,13 +184,14 @@ f.on('error', function(err) {
 //r.pipe(process.stdout);
 //r.pipe(st).pipe(f);
 //r.pipe(t).pipe(filestream);
-r.pipe(w);  // does not work properly
+r.pipe(w);
 //r.pipe(filestream);
 
 setTimeout(function () {
   console.log('timeout');
   r.stopRead();
 }, 5000);
+
 
 
 
